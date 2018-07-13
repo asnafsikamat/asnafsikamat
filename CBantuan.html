@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<title>Asnaf Sikamat</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCEAGbgSVTj47-3SeM9JBzz1W-qVFGQ9iE",
+      authDomain: "asnaf-sikamat.firebaseapp.com",
+      databaseURL: "https://asnaf-sikamat.firebaseio.com",
+      projectId: "asnaf-sikamat",
+      storageBucket: "asnaf-sikamat.appspot.com",
+      messagingSenderId: "701871286419"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+<!-- Leave out Storage -->
+<!-- <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-storage.js"></script> -->
+
+<script>
+  var config = {
+    // ...
+  };
+  firebase.initializeApp(config);
+
+</script>
+
+</head>
+<body>
+<style>
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 5px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+label {
+    padding: 5px;
+    display: inline-block;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+form {
+    background-color: #fefefe;
+    width: 25cm;
+    margin: 0 auto;
+}
+body {
+  background: rgb(204,204,204);
+  background-color: #fefefe;
+}
+page {
+  background-color: #fefefe;
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}
+img {
+  margin-left:30%;
+  margin-top: 2em;
+  border: 1px solid;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+</style>
+<body>
+
+
+  <div class="w3-container">
+    <p></p>
+    <h4 class="w3-text-black"><center>BANTUAN PELAJAR SEKOLAH DUN SIKAMAT</center></h4>
+    <h4 class="w3-text-black"><center>SENARAI IBU/BAPA/PENJAGA</center></h4>
+    <p></p>
+
+    <table id="ex-table" class="w3-table-all" >
+      <tr>
+        <td><b>No</b></td>
+        <td><b>Ibu/Bapa/Penjaga</b></td>
+        <td><b>No K/P</b></td>
+        <td><b>No Tel</b></td>
+        <td><b>Alamat</b></td>
+        <td><b>Status</b></td>
+        <td><b>Pendapatan</b></td>
+        <td><b>Bil Anak</b></td>
+      </tr>
+    </table>
+
+    <script>
+
+    var tbS = document.getElementById('ex-table');
+    var rowIndex = 1;
+    var databaseRef = firebase.database().ref('bantuan').orderByChild('b_masa');
+
+      databaseRef.once('value', function(snapshot){
+      snapshot.forEach(function(childSnapshot) {
+          var childKey = childSnapshot.key;
+          var childData = childSnapshot.val();
+
+            var row = tbS.insertRow(rowIndex);
+            var cellNo = row.insertCell(0);
+            var cellNama = row.insertCell(1);
+            var cellNoKP = row.insertCell(2);
+            var cellNoTel = row.insertCell(3);
+            var cellAlamat = row.insertCell(4);
+            var cellStatus = row.insertCell(5);
+            var cellPendapatan = row.insertCell(6);
+            var cellBilAnak = row.insertCell(7);
+
+            cellNo.appendChild(document.createTextNode(rowIndex));
+            cellNama.appendChild(document.createTextNode(childData.b_nama));
+            cellNoKP.appendChild(document.createTextNode(childData.b_noKP));
+            cellNoTel.appendChild(document.createTextNode(childData.b_noTel));
+            cellAlamat.appendChild(document.createTextNode(childData.b_alamat));
+            cellStatus.appendChild(document.createTextNode(childData.b_status));
+            cellPendapatan.appendChild(document.createTextNode(childData.b_pendapatan));
+            cellBilAnak.appendChild(document.createTextNode(childData.b_bilAnak));
+
+            rowIndex = rowIndex + 1;
+            });
+          });
+  </script>
+  <p></p>
+  </div>
+
+</body>
+
+</html>

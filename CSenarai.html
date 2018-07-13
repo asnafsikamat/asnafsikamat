@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<title>Asnaf Sikamat</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCEAGbgSVTj47-3SeM9JBzz1W-qVFGQ9iE",
+      authDomain: "asnaf-sikamat.firebaseapp.com",
+      databaseURL: "https://asnaf-sikamat.firebaseio.com",
+      projectId: "asnaf-sikamat",
+      storageBucket: "asnaf-sikamat.appspot.com",
+      messagingSenderId: "701871286419"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+<!-- Leave out Storage -->
+<!-- <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-storage.js"></script> -->
+
+<script>
+  var config = {
+    // ...
+  };
+  firebase.initializeApp(config);
+
+</script>
+
+</head>
+<body>
+<style>
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 5px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+label {
+    padding: 5px;
+    display: inline-block;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+form {
+    background-color: #fefefe;
+    width: 25cm;
+    margin: 0 auto;
+}
+body {
+  background: rgb(204,204,204);
+  background-color: #fefefe;
+}
+page {
+  background-color: #fefefe;
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}
+img {
+  margin-left:30%;
+  margin-top: 2em;
+  border: 1px solid;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+</style>
+<body>
+
+
+  <div class="w3-container">
+    <p></p>
+    <h6 class="w3-text-black"><center>SENARAI NAMA ASNAF, MISKIN, IBU TUNGGAL, jANDA, YATIM DAN OKU 2018</center></h6>
+    <h6 class="w3-text-black"><center>QARIAH DUN SIKAMAT</center></h6>
+    <p></p>
+    <h3 class="w3-text-black" id="cTajuk"><center><b></b></center></h3>
+    <p></p>
+    <script>
+    var smallT = window.location.href.split('?').pop();
+    if(smallT == "semua"){}
+    else if(smallT == "sakit"){
+      cTajuk.innerText = "Senarai Sakit";
+    }
+    else{
+      cTajuk.innerText = smallT;
+    }
+
+    </script>
+
+    <table id="ex-table" class="w3-table-all" >
+      <tr>
+        <td ><b>No</b></td>
+        <td ><b>Nama</b></td>
+        <td ><b>Alamat</b></td>
+        <td ><b>No K/P</b></td>
+        <td ><b>No Tel</b></td>
+        <td ><b>Umur</b></td>
+        <td ><b>Status</b></td>
+        <td ><b>Sakit</b></td>
+        <td ><b>Tanggungan</b></td>
+        <td ><b>Pendapatan</b></td>
+        <td ><b>Sumbangan</b></td>
+        <td ><b>Komen</b></td>
+      </tr>
+    </table>
+
+    <script>
+
+      var tbS = document.getElementById('ex-table');
+      var rowIndex = 1;
+      var statusT = window.location.href.split('?').pop();
+      var databaseRef = firebase.database().ref('senarai').orderByChild('masaD');
+
+      if(statusT == "semua"){
+        databaseRef.once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            var row = tbS.insertRow(rowIndex);
+            var cellNo = row.insertCell(0);
+            var cellNama = row.insertCell(1);
+            var cellAlamat = row.insertCell(2);
+            var cellNoKP = row.insertCell(3);
+            var cellNoTel = row.insertCell(4);
+            var cellUmur = row.insertCell(5);
+            var cellStatus = row.insertCell(6);
+            var cellSakit = row.insertCell(7);
+            var cellTanggung = row.insertCell(8);
+            var cellDapat = row.insertCell(9);
+            var cellSumbang = row.insertCell(10);
+            var cellKomen = row.insertCell(11);
+
+            cellNo.appendChild(document.createTextNode(rowIndex));
+            cellNama.appendChild(document.createTextNode(childData.nama));
+            cellAlamat.appendChild(document.createTextNode(childData.alamat));
+            cellNoKP.appendChild(document.createTextNode(childData.noKP));
+            cellNoTel.appendChild(document.createTextNode(childData.noTel));
+            cellUmur.appendChild(document.createTextNode(childData.umur));
+            cellStatus.appendChild(document.createTextNode(childData.status));
+            cellSakit.appendChild(document.createTextNode(childData.sakit));
+            cellTanggung.appendChild(document.createTextNode(childData.tanggungan));
+            cellDapat.appendChild(document.createTextNode(childData.pendapatan));
+            cellSumbang.appendChild(document.createTextNode(childData.sumbangan));
+            cellKomen.appendChild(document.createTextNode(childData.komen));
+
+            rowIndex = rowIndex + 1;
+            });
+          });
+      }
+      else if(statusT == "sakit"){
+        databaseRef.once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            var dSakit = childData.sakit;
+
+            if(dSakit != "-"){
+              var row = tbS.insertRow(rowIndex);
+              var cellNo = row.insertCell(0);
+              var cellNama = row.insertCell(1);
+              var cellAlamat = row.insertCell(2);
+              var cellNoKP = row.insertCell(3);
+              var cellNoTel = row.insertCell(4);
+              var cellUmur = row.insertCell(5);
+              var cellStatus = row.insertCell(6);
+              var cellSakit = row.insertCell(7);
+              var cellTanggung = row.insertCell(8);
+              var cellDapat = row.insertCell(9);
+              var cellSumbang = row.insertCell(10);
+              var cellKomen = row.insertCell(11);
+
+              cellNo.appendChild(document.createTextNode(rowIndex));
+              cellNama.appendChild(document.createTextNode(childData.nama));
+              cellAlamat.appendChild(document.createTextNode(childData.alamat));
+              cellNoKP.appendChild(document.createTextNode(childData.noKP));
+              cellNoTel.appendChild(document.createTextNode(childData.noTel));
+              cellUmur.appendChild(document.createTextNode(childData.umur));
+              cellStatus.appendChild(document.createTextNode(childData.status));
+              cellSakit.appendChild(document.createTextNode(childData.sakit));
+              cellTanggung.appendChild(document.createTextNode(childData.tanggungan));
+              cellDapat.appendChild(document.createTextNode(childData.pendapatan));
+              cellSumbang.appendChild(document.createTextNode(childData.sumbangan));
+              cellKomen.appendChild(document.createTextNode(childData.komen));
+
+              rowIndex = rowIndex + 1;
+            }
+          });
+        });
+      }
+      else{
+        databaseRef.once('value', function(snapshot){
+        snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            var dStatus = childData.status;
+
+            if(dStatus == statusT){
+              var row = tbS.insertRow(rowIndex);
+              var cellNo = row.insertCell(0);
+              var cellNama = row.insertCell(1);
+              var cellAlamat = row.insertCell(2);
+              var cellNoKP = row.insertCell(3);
+              var cellNoTel = row.insertCell(4);
+              var cellUmur = row.insertCell(5);
+              var cellStatus = row.insertCell(6);
+              var cellSakit = row.insertCell(7);
+              var cellTanggung = row.insertCell(8);
+              var cellDapat = row.insertCell(9);
+              var cellSumbang = row.insertCell(10);
+              var cellKomen = row.insertCell(11);
+
+              cellNo.appendChild(document.createTextNode(rowIndex));
+              cellNama.appendChild(document.createTextNode(childData.nama));
+              cellAlamat.appendChild(document.createTextNode(childData.alamat));
+              cellNoKP.appendChild(document.createTextNode(childData.noKP));
+              cellNoTel.appendChild(document.createTextNode(childData.noTel));
+              cellUmur.appendChild(document.createTextNode(childData.umur));
+              cellStatus.appendChild(document.createTextNode(childData.status));
+              cellSakit.appendChild(document.createTextNode(childData.sakit));
+              cellTanggung.appendChild(document.createTextNode(childData.tanggungan));
+              cellDapat.appendChild(document.createTextNode(childData.pendapatan));
+              cellSumbang.appendChild(document.createTextNode(childData.sumbangan));
+              cellKomen.appendChild(document.createTextNode(childData.komen));
+
+              rowIndex = rowIndex + 1;
+            }
+
+          });
+        });
+      }
+  </script>
+  <p></p>
+  </div>
+
+</body>
+
+</html>
